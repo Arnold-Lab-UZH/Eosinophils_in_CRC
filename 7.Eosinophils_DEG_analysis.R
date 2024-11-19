@@ -1,7 +1,7 @@
 ########## This code analyses DEGs betweeen tumor and control of eosinophils (human and mouse)  ##########
 
 ##### link to libraries and functions
-source("~/Projects/Eosinophils_in_CRC/1.Packages_and_functions.R")
+source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
 
 ##### load R object 
 mouse_eos <- readRDS("/data/khandl/Eosinophils_in_CRC/seurat_objects/mouse_eosinophils_integrated_annotated.rds")

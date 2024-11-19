@@ -1,7 +1,7 @@
 ##########  Pre-processing of human scRNAseq data ##########
 
 ##### link to libraries and functions
-source("~/Projects/Eosinophils_in_CRC/1.Packages_and_functions.R")
+source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
 
 #use the standard first cutoff settings, min.cell =3, min.features = 200
 

@@ -1,7 +1,7 @@
 ########## This code integrated human eosinophils from tumor, NAT (nromal adjacent tissue) and blood from healthy individuals ##########
 
 ##### link to libraries and functions
-source("~/Projects/Eosinophils_in_CRC/1.Packages_and_functions.R")
+source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
 
 ##### load R object 
 blood <- readRDS("/data/khandl/Eosinophils_in_CRC/seurat_objects/human_blood_annotated.rds")

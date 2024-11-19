@@ -2,7 +2,7 @@
 ### use the DEG analysis results from 7.Eosinophils_DEG_analysis.R
 
 ##### link to libraries and functions
-source("~/Projects/Eosinophils_in_CRC/1.Packages_and_functions.R")
+source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
 
 ##### load R object 
 mouse_eos <- readRDS("/data/khandl/Eosinophils_in_CRC/seurat_objects/mouse_eosinophils_integrated_annotated.rds")

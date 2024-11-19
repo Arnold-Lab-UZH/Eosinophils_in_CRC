@@ -1,7 +1,7 @@
 ########## This code applies CellPhoneDB to predict ligand-receptor interactions in the tumor microenvironment ##########
 
 ##### link to libraries and functions
-source("~/Projects/Eosinophils_in_CRC/1.Packages_and_functions.R")
+source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
 
 ##### load R object 
 mouse <- readRDS("/data/khandl/Eosinophils_in_CRC/seurat_objects/mouse_colonic_annotated.rds")

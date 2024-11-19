@@ -1,7 +1,7 @@
 ########## This code integrated mouse eosinophils from tumor, control and blood ##########
 
 ##### link to libraries and functions
-source("~/Projects/Eosinophils_in_CRC/1.Packages_and_functions.R")
+source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
 
 ##### read in R objects 
 colon <- readRDS(file = "/data/khandl/Eosinophils_in_CRC/seurat_objects/mouse_colonic_annotated.rds")

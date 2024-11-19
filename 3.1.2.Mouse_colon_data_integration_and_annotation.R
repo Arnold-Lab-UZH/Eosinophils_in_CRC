@@ -1,7 +1,7 @@
 ########## This code integrates colon data from human biopsies and annotates clusters ##########
 
 ##### link to libraries and functions
-source("~/Projects/Eosinophils_in_CRC/1.Packages_and_functions.R")
+source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
 
 ##### load R object 
 obj <- readRDS(file = "/data/khandl/Eosinophils_in_CRC/seurat_objects/tumor200_5000_25.rds")

@@ -1,7 +1,7 @@
 ########## This code applies a general eosinophil score based on DEGs from mouse data to human data ##########
 
 ##### link to libraries and functions
-source("~/Projects/Eosinophils_in_CRC/1.Packages_and_functions.R")
+source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
 
 ##### load data 
 ### Reference data (mouse data)
