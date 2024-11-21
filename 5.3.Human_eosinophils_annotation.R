@@ -1,4 +1,4 @@
-########## This code annotates human eosinophil clusters after integration ##########
+########## This code annotates human eosinophil clusters after integration using the mouse B- and A- eos identity ##########
 
 ##### link to libraries and functions
 source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
@@ -7,7 +7,7 @@ source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
 human_eos <- readRDS("/data/khandl/Eosinophils_in_CRC/seurat_objects/human_eosinophils_integrated.rds")
 mouse_eos <- readRDS("/data/khandl/Eosinophils_in_CRC/seurat_objects/mouse_eosinophils_integrated_annotated.rds")
 
-#only take wild type samples 
+# only take wild type samples 
 Idents(mouse_eos) <- "condition"
 mouse_eos_wt <- subset(mouse_eos, idents = c("adult_colon_wt","tumor_wt","blood_wt"))
 
@@ -19,7 +19,7 @@ markers <- FindAllMarkers(object = mouse_eos_wt, only.pos = TRUE, min.pct = 0.25
 markers_df <- as.data.frame(markers %>% group_by(cluster) %>% top_n(n =50, wt = avg_log2FC))
 
 ## convert the top 50 genes to human symbols 
-#A eos
+# A-Eos
 a_eos_markers <- markers_df[markers_df$cluster %in% "A_eos",]
 rownames(a_eos_markers) <- a_eos_markers$gene
 a_eos_human_orthologues <- convert_orthologs(gene_df = a_eos_markers,
@@ -31,7 +31,7 @@ a_eos_human_orthologues <- convert_orthologs(gene_df = a_eos_markers,
                                              method = "gprofiler") 
 a_eos_human_orthologues <- rownames(a_eos_human_orthologues)
 
-# basal eos
+# B-Eos 
 b_eos_markers <- markers_df[markers_df$cluster %in% "B_eos",]
 rownames(b_eos_markers) <- b_eos_markers$gene
 b_eos_human_orthologues <- convert_orthologs(gene_df = b_eos_markers,
@@ -84,7 +84,7 @@ human_eos$annotation <- plyr::mapvalues(x = human_eos$mnn.clusters, from = curre
 p <- DimPlot(human_eos,reduction = "umap.mnn",group.by = "annotation",raster=FALSE, label = TRUE, cols = c("#10A069","#E81818"))
 ggsave(file = "/scratch/khandl/eos_human/eos_anno/umap_annotated.svg", width = 8, height = 6, plot = p)
 
-##### proportion plot per condition 
+##### proportion plot
 ## per tissue 
 create_table_cell_type_prop(human_eos, "tissue","annotation","/scratch/khandl/eos_human/eos_anno/","obj")
 df <- read.csv("/scratch/khandl/eos_human/eos_anno/obj_proportions_tissue_annotation.csv", header = TRUE)
@@ -100,7 +100,8 @@ p <- ggplot(data=df_plotting, aes(x=sample, y=proportion, fill = cell_types)) +
   theme_classic(base_size = 25) 
 ggsave("/scratch/khandl/eos_human/eos_anno/cell_type_prop.svg", width = 12, height = 6, plot = p)
 
-## per patient and condition 
+## per patient and tissue 
+# tumor 
 Idents(human_eos) <- "tissue"
 sub <- subset(human_eos, idents = "tumor") 
 create_table_cell_type_prop(sub, "condition","annotation","/scratch/khandl/eos_human/eos_anno/","tumor")
@@ -117,6 +118,7 @@ p <- ggplot(data=df_plotting, aes(x=sample, y=proportion, fill = cell_types)) +
   theme_classic(base_size = 25) 
 ggsave("/scratch/khandl/eos_human/eos_anno/cell_type_prop_per_patinet_tumor.svg", width = 12, height = 6, plot = p)
 
+# NAT
 Idents(human_eos) <- "tissue"
 sub <- subset(human_eos, idents = "tissue_ctrl") 
 create_table_cell_type_prop(sub, "condition","annotation","/scratch/khandl/eos_human/eos_anno/","tissue_ctrl")
@@ -133,6 +135,7 @@ p <- ggplot(data=df_plotting, aes(x=sample, y=proportion, fill = cell_types)) +
   theme_classic(base_size = 25) 
 ggsave("/scratch/khandl/eos_human/eos_anno/cell_type_prop_per_patinet_tissue_ctrl.svg", width = 12, height = 6, plot = p)
 
+# blood healthy 
 Idents(human_eos) <- "tissue"
 sub <- subset(human_eos, idents = "blood_healhty") 
 create_table_cell_type_prop(sub, "condition","annotation","/scratch/khandl/eos_human/eos_anno/","blood_healthy")

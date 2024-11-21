@@ -1,4 +1,4 @@
-########## This code analyses differences in cell type proportions between tumor and control (NAT) ##########
+########## This code analyses differences in cell type proportions between tumor and NAT ##########
 
 ##### link to libraries and functions
 source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
@@ -11,7 +11,7 @@ Idents(obj) <- "annotation"
 obj <- subset(obj, idents = c("B_mature","Basophils","CD4_T","CD8_T","DCs","Eosinophils","Mast","Monocytes",
                                    "Macrophages","Neutrophils","PC","TAMs"))
 
-##### plot umap split by condition 
+##### plot umap split by tissue 
 p <- DimPlot(obj, group.by = "annotation", label = FALSE,
              cols = c("#EDB20C","#7C7C79","#270A7F", "#26DFED","#F20AB1","#E22B17"
                       ,"#1E8209","#56544F", "#C0DBB4","#BD7FEA","#DDED0C","#54EF0C"),
@@ -67,7 +67,7 @@ ggsave("/scratch/khandl/eos_human/figures/anno/TME_hs_proportions_per_patient.sv
 cell_type_prop_stats(obj,"annotation","tissue_ctrl","tumor","tissue",1.41,
                      "/scratch/khandl/eos_human/figures/cell_type_prop/tissue_ctrl_vs_tumor_stat.svg") 
 
-##### Barplot to compare eos, neutrophils and TAMs 
+##### Barplot to compare eos, neutrophils, mature B, PCs and TAMs 
 df <- read.csv("/scratch/khandl/eos_human/figures/TME_proportions_tissue_annotation.csv", header = TRUE)
 
 barplot_cell_type_oi_2cond(df,c("X","Neutrophils"),c("#BCA6C9","#690E9E"),"/scratch/khandl/eos_tumor/figures/cell_type_prop/human_barplot_neut.svg")

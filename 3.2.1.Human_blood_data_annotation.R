@@ -1,4 +1,4 @@
-########## This code annotated cell type clusters from mouse blood data (non-tumor bearing mice) ##########
+########## This code integrates and annotated human blood healthy samples ##########
 
 ##### link to libraries and functions
 source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")

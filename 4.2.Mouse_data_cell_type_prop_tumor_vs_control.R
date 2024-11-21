@@ -59,7 +59,7 @@ cell_type_prop_stats(obj,"annotation","adult_colon_phil","tumor_phil","condition
 cell_type_prop_stats(obj,"annotation","disseminated_phil","tumor_phil","condition",1.41,
                      "/scratch/khandl/eos_tumor/figures/cell_type_prop/stats_mets_phil_tumor_phil.svg") 
 
-##### Barplot to compare eos, neutrophils and TAMs  control vs. tumor 
+##### Barplot to compare eos, neutrophils, mature B, PCs and TAMs  control vs. tumor 
 df <- read.csv("/scratch/khandl/eos_tumor/data_files/tumor_immune_proportions_condition_annotation.csv", header = TRUE)
 df2 <- df[df$X %in% c("adult_colon_wt","tumor_wt"),]
 
@@ -69,7 +69,7 @@ barplot_cell_type_oi_2cond(df2,c("X","TAMs"),c("#C5EFA3","#4A9B0A"),"/scratch/kh
 barplot_cell_type_oi_2cond(df2,c("X","PCs"),c("#E0E0A2","#D8D805"),"/scratch/khandl/eos_tumor/figures/cell_type_prop/barplot_PC.svg")
 barplot_cell_type_oi_2cond(df2,c("X","mature_B"),c("#EACD8C","#A5750A"),"/scratch/khandl/eos_tumor/figures/cell_type_prop/barplot_matureB.svg")
 
-##### barplot to compare WT vs. PHIL in control, tumor and disseminated 
+##### Barplot to compare WT vs. PHIL in control, tumor and disseminated 
 ## eosinophils 
 df <- read.csv("/scratch/khandl/eos_tumor/data_files/tumor_immune_proportions_condition_annotation.csv", header = TRUE)
 df <- df[df$X %in% c("adult_colon_wt", "adult_colon_phil","tumor_wt","tumor_phil","disseminated_wt","disseminated_phil"),colnames(df) %in% c("X","Eosinophils")]

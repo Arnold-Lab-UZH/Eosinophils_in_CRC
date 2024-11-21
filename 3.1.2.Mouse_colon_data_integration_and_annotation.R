@@ -1,4 +1,4 @@
-########## This code integrates colon data from human biopsies and annotates clusters ##########
+########## This code integrates colon and tumor data from mouse samples and annotates clusters ##########
 
 ##### link to libraries and functions
 source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
@@ -243,15 +243,3 @@ heatmap_goi_coi(obj, "annotation",markers,c("CD4_T","CD8_T","ILCs", "mature_B","
 
 ##### save object 
 saveRDS(obj, "/data/khandl/Eosinophils_in_CRC/seurat_objects/mouse_colonic_annotated.rds")
-obj <- readRDS( "/data/khandl/Eosinophils_in_CRC/seurat_objects/mouse_colonic_annotated.rds")
-FeaturePlot(obj, features = c("Gpr4","Gpr65","Gpr68"))
-Idents(obj) <- "annotation"
-DotPlot(obj,features = c("Gpr4","Gpr65","Gpr68"))
-
-Idents(obj) <- "condition"
-obj$anno_cond <- paste0(obj$annotation, "_", obj$condition)
-
-sub <- subset(obj, idents = c("tumor_wt","tumor_phil")) 
-Idents(sub) <- "anno_cond"
-DotPlot(sub,features =c("Gpr4","Gpr65","Gpr68"))
-

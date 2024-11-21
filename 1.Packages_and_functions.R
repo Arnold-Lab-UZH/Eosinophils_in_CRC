@@ -1,4 +1,4 @@
-#packages 
+# Packages 
 library(Seurat)
 library(dplyr)
 library(tidyr)
@@ -21,7 +21,7 @@ library(RColorBrewer)
 library(SCENIC)
 library(GENIE3)
 
-##### Functions for pre-preocessing 
+##### Functions for pre-processing 
 ### Function to read in data generated from BD Seven Bridges platform (by Simona Baghai)
 data_to_sparse_matrix <- function(data.st_file_path) {
   # read in file with cell index - gene name - values
@@ -39,6 +39,7 @@ data_to_sparse_matrix <- function(data.st_file_path) {
 }
 
 ### Function to generate Seurat objects for each sample + application of DecontX (accounting for cell free RNA contamination) 
+## for mouse data 
 create_seurat_plus_DecontX <- function(
     path_to_st_file,
     project,
@@ -52,9 +53,9 @@ create_seurat_plus_DecontX <- function(
                                         min.cells = min.cells,
                                         min.features = min.features)
   sce <- as.SingleCellExperiment(condition_sample)
-  ### run decontX with default settings 
+  # run decontX with default settings 
   sce.delta <- decontX(sce)
-  ### convert back to a Seurat object 
+  # convert back to a Seurat object 
   seuratObject <- CreateSeuratObject(round(decontXcounts(sce.delta)))
   seuratObject$condition <- condition
   
@@ -78,9 +79,9 @@ create_seurat_plus_DecontX_human_biopsies <- function(
                                         min.cells = min.cells,
                                         min.features = min.features)
   sce <- as.SingleCellExperiment(condition_sample)
-  ### run decontX with default settings 
+  # run decontX with default settings 
   sce.delta <- decontX(sce)
-  ### convert back to a Seurat object 
+  # convert back to a Seurat object 
   seurat_object <- CreateSeuratObject(round(decontXcounts(sce.delta)))
   seurat_object$condition <- condition_oi
   seurat_object$tissue <- tissue_oi
@@ -89,8 +90,9 @@ create_seurat_plus_DecontX_human_biopsies <- function(
   return(seurat_object)
 }
 
-##### Functions for annotation 
+##### Functions for cell type annotations 
 ### Function to project the cell type from SingleR result to the umap space to identify which cluster represents which cell type 
+## after FastMNN integration 
 project_annotation_to_umap_fastMNN <- function(cell.type, singleResult, seurat_object) {
   temp <- as.data.frame(singleResult[4])
   # singleResult[5] is extracting pruned.labels from data frame
@@ -100,6 +102,7 @@ project_annotation_to_umap_fastMNN <- function(cell.type, singleResult, seurat_o
   print(DimPlot(seurat_object, reduction = "umap.mnn", label = TRUE, label.size = 10, pt.size = 2, cells.highlight = temp, sizes.highlight = 2,raster=FALSE) + NoLegend() + ggtitle(cell.type))
 }
 
+## without FastMNN integration 
 project_annotation_to_umap <- function(cell.type, singleResult, seurat_object) {
   temp <- as.data.frame(singleResult[4])
   # singleResult[5] is extracting pruned.labels from data frame
@@ -108,7 +111,6 @@ project_annotation_to_umap <- function(cell.type, singleResult, seurat_object) {
   temp <- temp$cell
   print(DimPlot(seurat_object, reduction = "umap", label = TRUE, label.size = 10, pt.size = 0.5, cells.highlight = temp, sizes.highlight = 2) + NoLegend() + ggtitle(cell.type))
 }
-
 
 ##### Functions for plotting 
 ### Function to plot genes of interest per condition of interest, scaled per row 
@@ -123,17 +125,17 @@ heatmap_goi_coi <- function(
     cluster_rows_cond,
     cluster_cols_cond
 ){
-  #average expression per cluster and condition 
+  # average expression per cluster and condition 
   average_expression <- AverageExpression(seurat_object, return.seurat = FALSE, features = markers_oi, normalization.method = "LogNormalize",assays = "RNA", group.by = condition_oi)
   average_expression_df <- as.data.frame(average_expression)
   average_expression_df <- average_expression_df[match(markers_oi, rownames(average_expression_df)),]
   
-  #prepare palette for pheatmap
+  # prepare palette for pheatmap
   paletteLength   <- 50
   myColor         <- colorRampPalette(c("blue", "white", "darkorange"))(paletteLength)
   breaksList      = seq(-2, 2, by = 0.04)
   
-  #prepare annotation for pheatmap
+  # prepare annotation for pheatmap
   annotation_rows             <- data.frame(markers = rep(groups_of_markers, number_of_markers_per_group))
   rownames(annotation_rows)   <- rownames(average_expression_df)
   annotation_rows$markers     <- factor(annotation_rows$markers, levels = groups_of_markers)
@@ -237,7 +239,7 @@ cell_type_prop_stats <- function(
   ggsave(file = output_path, width = 8, height = 2, plot = p)
 }
 
-### baplot per cell type between two conditions
+### barplot per cell type between two conditions
 barplot_cell_type_oi_2cond <- function(
     cell_type_prop_df,
     col_names_oi,
@@ -307,7 +309,6 @@ volcano_DGE_showing_goi <- function(
     scale_color_manual(values =c(colors_dots) ,guide = "none") + 
     theme(axis.title= element_text(size = 25)) + theme(axis.text = element_text(size = 30))  + 
     theme(plot.title = element_text(size = 25, face = "bold"))  + 
-    #guides(colour = guide_legend(override.aes = list(size=1.5))) + 
     theme(legend.title = element_text(size = 25), legend.text = element_text(size = 25)) + 
     geom_vline(xintercept = x_line_intercept, linetype = "dashed", color = "gray50") + #log Fold Change cutoff 
     geom_hline(yintercept = 1.3, linetype = "dashed", color = "gray50") + #p value cutoff 
@@ -372,8 +373,8 @@ fGSEA_to_csv <- function(
   write.csv(all_filtered, file = output_file)
 }
 
-##### Functions to analyse MHC-I and antien processing score between two conditions 
-### mouse 
+##### Functions to analyse MHC-I and antigen processing score between two conditions 
+### mouse data 
 MHCI_antigen_processing_vln_2_cond_mm <- function(
     seurat_object,
     column_oi1,
@@ -412,7 +413,7 @@ MHCI_antigen_processing_vln_2_cond_mm <- function(
   ggsave(output_path_file, width = 8, height = 8, plot = p)
 }
 
-### human 
+### human data 
 MHCI_antigen_processing_vln_2_cond_hs <- function(
     seurat_object,
     column_oi1,
@@ -451,7 +452,7 @@ MHCI_antigen_processing_vln_2_cond_hs <- function(
 }
 
 ##### Functions for CellPhoneDB 
-###Function for generation of input files from mouse data 
+### Function for generation of input files from mouse data 
 #first gene symbols have to be converted from mouse to human because CellPhoneDB database only contains human L-R interactions   
 #Conversion of mouse to human genes adapted partially from: https://github.com/CostaLab/CrossTalkeR/blob/master/CellPhoneDB%20Tutorial.md
 #and: https://www.cellphonedb.org/faq-and-troubleshooting
@@ -503,84 +504,3 @@ Input_files_CellPhoneDB_generation_hs <- function(
   write.table(meta_data_meta, paste0(ouput_file_path,sample_name,"_meta.txt"), sep='\t', quote=F, row.names=F)
 }
 
-### Function to generate inputs for CytoSig analysis 
-## mouse data 
-input_cytosig_mouse_2cond <- function(
-    seurat_object, 
-    condition_column,
-    cond1,
-    cond2,
-    logfc_threshold,
-    sample_name,
-    output_path
-){
-  ### DEG analysis one condition against all others 
-  seurat_object <- NormalizeData(seurat_object, normalization.method = "LogNormalize",scale.factor = 10000,
-                                 margin = 1, assay = "RNA")
-  DefaultAssay(seurat_object) <- "RNA"
-  Idents(seurat_object) <- condition_column
-  degs <- FindMarkers(object = seurat_object, ident.1 = cond1, ident.2 = cond2, only.pos = FALSE, min.pct = 0.25, 
-                      logfc.threshold = logfc_threshold,slot = "data")
-  
-  #take only significant ones 
-  degs <- degs[degs$p_val_adj <= 0.05,]
-  
-  #remove columns not needed
-  degs$p_val <- NULL
-  degs$pct.1 <- NULL
-  degs$pct.2 <- NULL
-  colnames(degs) <- c(sample_name,"p")
-  
-  degs[is.na(degs)] <- 0
-  
-  genesV2 = getLDS(attributes = c("mgi_symbol"), filters = "mgi_symbol", values = rownames(degs) , mart = mouse, 
-                   attributesL = c("hgnc_symbol","hgnc_id",'ensembl_gene_id'), martL = human, uniqueRows=T)
-  print(head(genesV2))
-  matrixA <- degs[match(genesV2$MGI.symbol,rownames(degs),nomatch=T),]
-  print(head(matrixA))
-  matrixA$gene <- genesV2$HGNC.symbol
-  #remove duplicated rows 
-  matrixA <- matrixA[!duplicated(matrixA), ]
-  rownames(matrixA) <- NULL
-  #remove duplicated rows 
-  matrixB <- matrixA[!duplicated(matrixA$gene),]
-  rownames(matrixB) <- matrixB$gene
-  matrixB$gene <- NULL
-  matrixB$p <- NULL
-  #save count matrix as text file 
-  write.csv(matrixB,output_path)
-}
-
-## human data 
-input_cytosig_human_2cond <- function(
-    seurat_object, 
-    condition_column,
-    cond1,
-    cond2,
-    logfc_threshold,
-    sample_name,
-    output_path
-){
-  ### DEG analysis one condition against all others 
-  seurat_object <- NormalizeData(seurat_object, normalization.method = "LogNormalize",scale.factor = 10000,
-                                 margin = 1, assay = "RNA")
-  DefaultAssay(seurat_object) <- "RNA"
-  Idents(seurat_object) <- condition_column
-  degs <- FindMarkers(object = seurat_object, ident.1 = cond1, ident.2 = cond2, only.pos = FALSE, min.pct = 0.25, 
-                      logfc.threshold = logfc_threshold,slot = "data")
-  
-  #take only significant ones 
-  degs <- degs[degs$p_val_adj <= 0.05,]
-  
-  #remove columns not needed
-  degs$p_val <- NULL
-  degs$pct.1 <- NULL
-  degs$pct.2 <- NULL
-  degs$p_val_adj <- NULL
-  colnames(degs) <- c(sample_name)
-  
-  degs[is.na(degs)] <- 0
-  
-  #save count matrix as text file 
-  write.csv(degs,output_path)
-}

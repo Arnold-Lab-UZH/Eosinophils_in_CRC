@@ -13,7 +13,7 @@ blood_human <- readRDS("/data/khandl/Eosinophils_in_CRC/seurat_objects/human_blo
 colon_human <- readRDS("/data/khandl/Eosinophils_in_CRC/seurat_objects/patients_colonic_annotated.rds")
 
 ##### colon score 
-### extract the top 50 DEGs from the eosinophil cluster 
+### extract the top 50 DEGs from the mouse eosinophil cluster 
 mouse_colon_DEGs <- NormalizeData(colon_mouse, normalization.method = "LogNormalize",scale.factor = 10000,margin = 1, assay = "RNA")
 Idents(colon_mouse) <- "annotation"
 markers <- FindAllMarkers(object = colon_mouse, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25, assay = "RNA", slot = "data")
@@ -46,7 +46,6 @@ p <- VlnPlot(colon_human, features= "Mouse_eos_score1", group.by = "annotation",
 ggsave("/scratch/khandl/eos_human/figures/eos_score/colon_score_vln.svg", width = 8, height = 8, plot = p)
 
 ### statistics 
-#mean and median same results the highest is Neutrophils 2 
 Idents(colon_human) <- "annotation"
 eos <- subset(colon_human, idents = "Eosinophils")
 baso <- subset(colon_human, idents = "Basophils")
@@ -54,7 +53,7 @@ p_val <- wilcox.test(eos$Mouse_eos_score1, baso$Mouse_eos_score1, alternative = 
 print(p_val)
 
 ##### blood score 
-### extract the top 50 DEGs from the eosinophil cluster 
+### extract the top 50 DEGs from mouse eosinophil clusters 
 mouse_blood_DEGs <- NormalizeData(blood_mouse, normalization.method = "LogNormalize",scale.factor = 10000,margin = 1, assay = "RNA")
 Idents(blood_mouse) <- "annotation"
 markers <- FindAllMarkers(object = blood_mouse, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25, assay = "RNA", slot = "data")

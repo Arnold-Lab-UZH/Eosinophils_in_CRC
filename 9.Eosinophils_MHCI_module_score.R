@@ -1,5 +1,4 @@
 ########## This code analyses the MHC-I and antigen processing score in eosinophils between tumor and control (human and mouse) ##########
-### use the DEG analysis results from 7.Eosinophils_DEG_analysis.R
 
 ##### link to libraries and functions
 source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
@@ -21,7 +20,7 @@ MHCI_antigen_processing_vln_2_cond_hs(human_eos, "tissue",c("tissue_ctrl", "tumo
                                       c("#9E5E6A","#8A181A"),c(-0.5,3),
                                       "/scratch/khandl/eos_human/figures/signature_scores/MHCI_control_vs_tumor.svg")
 
-### cluster 2 vs. cluster 1
+### Eos_H2 vs. Eos_H1
 MHCI_antigen_processing_vln_2_cond_hs(human_eos, "mnn.clusters",c("1", "2"),
                                       "mnn.clusters","1","2", 
                                       c("#CA13EA","#EAA10F"),c(-0.5,3),

@@ -1,4 +1,4 @@
-##########  Pre-processing of human scRNAseq data ##########
+##########  Pre-processing of mouse scRNAseq data ##########
 
 ##### link to libraries and functions
 source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")

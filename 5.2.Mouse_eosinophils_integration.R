@@ -1,4 +1,4 @@
-########## This code integrated mouse eosinophils from tumor, control and blood ##########
+########## This code integrated mouse eosinophils from tumor, control and blood and labels them using label transfer ##########
 
 ##### link to libraries and functions
 source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
@@ -26,11 +26,11 @@ obj <- JoinLayers(obj)
 adult_eosSS <- readRDS("/data/khandl/common/Nature_paper_data/eosinophils_steadystate.rds")
 adult_eosSS$annotation <- adult_eosSS$seurat_clusters
 
-#remove spleen, stomach and small intestine, keep bonemarrow for circ eos  
+# remove spleen, stomach and small intestine -  keep bonemarrow for circ eos control  
 Idents(adult_eosSS) <- "orig.ident"
 adult_eosSS <- subset(adult_eosSS, idents = c("bonemarrow","blood","colon"))
 
-##### Pre-process
+##### Pre-processing
 adult_eosSS <- NormalizeData(adult_eosSS)
 adult_eosSS <- FindVariableFeatures(adult_eosSS)
 adult_eosSS <- ScaleData(adult_eosSS,vars.to.regress = c("nFeature_RNA","nCount_RNA","percent.mt"))
@@ -68,30 +68,29 @@ p1 + p2
 # plot prediction score per condition
 p <- VlnPlot(query, features = "predicted.celltype.score", group.by = "condition")
 ggsave(file = "/scratch/khandl/eos_tumor/eosinophils/prediction_score.svg", plot = p, width = 10, height = 6)
-#query$celltype <- ifelse(query$prediction.score.max > 0.5, query$predicted.id, "non.defined")
 
-#add a meta.data column combining annotation and predicted.celltype 
+# add a meta.data column combining annotation and predicted.celltype 
 adult_eosSS$annotation <- adult_eosSS$annotation
 query$annotation <- query$predicted.celltype
-#merge objects with umap and ref.umap based on the adult_ss 
+# merge objects with umap and ref.umap 
 integrated <- merge(adult_eosSS, query)
 integrated[["umap"]] <- merge(adult_eosSS[["umap"]], query[["ref.umap"]])
 DimPlot(integrated, group.by = "condition")
 
-## rename non-defined A-eos 
+## rename 
 current.cluster.ids <- c("basal eosinophils", "circulating eosinophils","eosinophil progenitors","immature eosinophils",
                          "intestinal eosinophils")
 new.cluster.ids <- c("B_eos", "circ_eos","precursor_eos","immature_eos",
                      "A_eos")
 integrated$annotation <- plyr::mapvalues(x = integrated$annotation, from = current.cluster.ids, to = new.cluster.ids)
 
-# Plot tumor cells cells as an overlay to the reference and the reference separate
+# Plot the reference without tumor cells 
 Idents(integrated) <- "condition"
 sub <- subset(integrated, idents = c("blood","bonemarrow","colon"))
 p <- DimPlot(sub, group.by = "annotation1",cols = c("#E81818","#10A069","#E8E81A", "#E88A1A","#26DFED"), pt.size = 1)
 ggsave(file = "/scratch/khandl/eos_tumor/eosinophils/umap_annotated.svg", plot = p, width = 10, height = 6)
 
-#highlihght tumor cells with larger dots 
+# highlight tumor cells with larger dots 
 Idents(integrated) <- "condition"
 sub <- subset(integrated, idents = c("blood","bonemarrow","colon", "tumor_wt"))
 tumor_cells <- WhichCells(sub, idents = c("tumor_wt"))

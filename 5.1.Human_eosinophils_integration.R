@@ -1,4 +1,4 @@
-########## This code integrated human eosinophils from tumor, NAT (nromal adjacent tissue) and blood from healthy individuals ##########
+########## This code integrated human eosinophils from tumor, NAT and blood healthy ##########
 
 ##### link to libraries and functions
 source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
@@ -7,7 +7,7 @@ source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
 blood <- readRDS("/data/khandl/Eosinophils_in_CRC/seurat_objects/human_blood_annotated.rds")
 colon <- readRDS("/data/khandl/Eosinophils_in_CRC/seurat_objects/patients_colonic_annotated.rds")
 
-#extract eosinophils 
+# extract eosinophils 
 Idents(blood) <- "annotation"
 blood_eos <- subset(blood, idents = "Eosinophils")
 Idents(colon) <- "annotation"
@@ -76,13 +76,13 @@ write.csv(markers, "/scratch/khandl/eos_human/eos_clustering/DEGs_per_cluster.cs
 ## plot gene of interest per cluster 
 markers_to_plot <- c("SMPD3","IL5RA","PRSS33","PIK3R6","ITGAL","ITGA4","ALOX5","ALOX15","TGFBR2","TGFB1", "RARA", #cluster 1 specific 
                      "CCL3","CCL3L1","CCL4","CCL4L2","NFKB1","NFKB2","REL", "RELB",
-                     "TNFAIP2","TNFAIP3","CD69","AREG","HLA-DRA" ,"FOSB" #clluster 2 specific
+                     "TNFAIP2","TNFAIP3","CD69","AREG","HLA-DRA" ,"FOSB" #cluster 2 specific
                      )
 
 p <- DotPlot(obj, features = markers_to_plot , dot.scale = 10, scale = FALSE) + RotatedAxis()
 ggsave(file = "/scratch/khandl/eos_human/eos_clustering/dotPlot_genes_of_interest.svg", width = 8, height = 6, plot = p)
 
-##### proportion of mnn.clusters per condition
+##### proportion of mnn.clusters per tissue
 create_table_cell_type_prop(obj, "tissue","mnn.clusters","/scratch/khandl/eos_human/eos_clustering/","clusters")
 df <- read.csv("/scratch/khandl/eos_human/eos_clustering/clusters_proportions_tissue_mnn.clusters.csv", header = TRUE)
 
@@ -97,7 +97,7 @@ p <- ggplot(data=df_plotting, aes(x=sample, y=proportion, fill = cell_types)) +
   theme_classic(base_size = 25) 
 ggsave("/scratch/khandl/eos_human/eos_clustering/prop_barplot_clusters.svg", width = 12, height = 6, plot = p)
 
-##### statistics between tissue control and tumor
+##### statistics between NAT and tumor
 #first control, then the condition
 Idents(obj) <- "mnn.clusters"
 obj <- subset(obj, idents = c("1","2"))

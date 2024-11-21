@@ -1,4 +1,4 @@
-########## This code runs SCENIC analysis of human eosinophil clsuters after integration ##########
+########## This code runs SCENIC analysis of human eosinophil clusters after integration ##########
 
 ##### link to libraries and functions
 source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
@@ -46,7 +46,7 @@ genesKept <- geneFiltering(exprMat, scenicOptions=scenicOptions,minCountsPerGene
 exprMat_filtered <- exprMat[genesKept, ]
 dim(exprMat_filtered)
 
-### calculating correlation
+### calculate correlation
 runCorrelation(exprMat_filtered, scenicOptions)
 
 ### run GENIE3: infer potential transcription factor targets based on the expression data
@@ -92,7 +92,7 @@ regulonActivity_byCellType_Scaled <- t(scale(t(regulonActivity_byCellType), cent
 write.csv(regulonActivity_byCellType_Scaled, "/data/khandl/SCENIC/human_eos/SCENIC_clusters/Human_eos_clusters_regulons_scaled_actvity.csv")
 write.csv(regulonActivity_byCellType, "/data/khandl/SCENIC/human_eos/SCENIC_clusters/Human_eos_clusters_regulons_actvity.csv")
 
-### plot regulons of interest 
+### plot regulons of interest in heatmap 
 regulonActivity_byCellType <- read.csv("/data/khandl/SCENIC/human_eos/SCENIC_clusters/Human_eos_clusters_regulons_actvity.csv")
 rownames(regulonActivity_byCellType) <- regulonActivity_byCellType$X
 regulonActivity_byCellType$X <- NULL

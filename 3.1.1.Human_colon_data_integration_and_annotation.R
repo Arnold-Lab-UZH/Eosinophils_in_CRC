@@ -32,7 +32,7 @@ Idents(obj) <- "mnn.clusters"
 markers <- FindAllMarkers(object = obj, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25, assay = "RNA", slot = "data")
 View(markers %>% group_by(cluster) %>% top_n(n =5, wt = avg_log2FC))
 
-##heatmap of the top 5 DEGs 
+## heatmap of the top 5 DEGs 
 markers <- c("ENSG00000286848","JCHAIN","IGHA2","IGKC","TNFRSF17", #cluster 0: PCs 
              "LILRB5","CD163L1","CD209","F13A1","IGSF21", #cluster 1 Macrophages 
              "IL7R","SPOCK2","ICOS","CD28","CCR4", #cluster 2: CD4+ T 
@@ -71,7 +71,7 @@ markers <- c("ENSG00000286848","JCHAIN","IGHA2","IGKC","TNFRSF17", #cluster 0: P
              "CAVIN2","FCER1A","LYVE1","GGTA1" #cluster 35: low quality 
 )
 
-#heatmap per cluster and condition 
+# heatmap per cluster and condition 
 heatmap_goi_coi(obj, "mnn.clusters",markers,c("c0","c1","c2","c3","c4","c5","c6","c7","c8","c9","c10","c11","c12","c13","c14","c15",
                                              "c16","c17","c18","c19","cl20","c21","c22","c23","c24","c25","c26","c27","c28","c29",
                                              "c30","c31","c32","c33","c34","c35"), 
@@ -228,7 +228,7 @@ DotPlot(sub_celltype, features = markers,dot.scale = 10, scale = FALSE, assay = 
   theme(legend.title = element_text(size = 20), legend.text = element_text(size = 20)) + 
   theme(title = element_text(size = 20))+ theme(axis.text = element_text(size = 10)) + theme(axis.text.x = element_text(angle = 90)) 
 
-#rename
+# rename
 current.cluster.ids <- c("B_mature","Basophils","DCs","Endothelial","Eosinophils","Epithelial",
                          "Fibroblasts","lowQ","Mast","Monocytes","Neutrophils","PC",
                         "T_0","T_1","T_2","T_3","T_4","T_5","T_6","T_7","Macrophages","TAMs")
@@ -259,7 +259,7 @@ View(markers %>% group_by(cluster) %>% top_n(n =5, wt = avg_log2FC))
 VlnPlot(sub_celltype, features = "nFeature_RNA")
 VlnPlot(sub_celltype, features = "percent.mt")
 
-#rename
+# rename
 current.cluster.ids <- c("B_mature_0","B_mature_1","B_mature_2","Basophils","CD4_T","CD8_T",
                          "DCs","Endothelial","Eosinophils","Epithelial",
                          "Fibroblasts","lowQ","Mast","Monocytes","Neutrophils","PC",
@@ -292,7 +292,7 @@ View(markers %>% group_by(cluster) %>% top_n(n =5, wt = avg_log2FC))
 VlnPlot(sub_celltype, features = "nFeature_RNA")
 VlnPlot(sub_celltype, features = "percent.mt")
 
-#rename
+# rename
 current.cluster.ids <- c("B_mature","Basophils","CD4_T","CD8_T",
                          "DCs","Endothelial","Eosinophils","Epithelial",
                          "Fibroblasts_0", "Fibroblasts_1", "Fibroblasts_2", "Fibroblasts_3","lowQ","Mast",
@@ -325,7 +325,7 @@ View(markers %>% group_by(cluster) %>% top_n(n =5, wt = avg_log2FC))
 VlnPlot(sub_celltype, features = "nFeature_RNA")
 VlnPlot(sub_celltype, features = "percent.mt")
 
-#rename
+# rename
 current.cluster.ids <- c("B_mature","Basophils","CD4_T","CD8_T",
                          "DCs","Endothelial","Eosinophils_0","Eosinophils_1","Eosinophils_2","Epithelial",
                          "Fibroblasts", "lowQ","low_Q","Mast",
@@ -337,7 +337,7 @@ new.cluster.ids <- c("B_mature","Basophils","CD4_T","CD8_T",
 subCl$annotation <- plyr::mapvalues(x = subCl$sub.cluster, from = current.cluster.ids, to = new.cluster.ids)
 DimPlot(subCl, group.by = "annotation", label = TRUE,raster=FALSE,reduction = "umap.mnn")
 
-### sub-clustering of PC
+### sub-clustering of PCs
 Idents(subCl) <- "annotation"
 subCl <- FindSubCluster(subCl,cluster = "PC",graph.name = "RNA_snn", 
                         subcluster.name = "sub.cluster",resolution = 0.1)
@@ -358,7 +358,7 @@ View(markers %>% group_by(cluster) %>% top_n(n =5, wt = avg_log2FC))
 VlnPlot(sub_celltype, features = "nFeature_RNA")
 VlnPlot(sub_celltype, features = "percent.mt")
 
-#rename
+# rename
 current.cluster.ids <- c("B_mature","Basophils","CD4_T","CD8_T",
                          "DCs","Endothelial","Eosinophils","Epithelial",
                          "Fibroblasts", "lowQ","Mast",
@@ -393,7 +393,7 @@ VlnPlot(sub_celltype, features = "nFeature_RNA")
 VlnPlot(sub_celltype, features = "percent.mt")
 FeaturePlot(sub_celltype, features = "MUC13", reduction = "umap.mnn")
 
-#rename
+# rename
 current.cluster.ids <- c("B_mature","Basophils","CD4_T","CD8_T",
                      "DCs","Endothelial","Eosinophils","Epithelial_0","Epithelial_1","Epithelial_2","Epithelial_3",
                      "Epithelial_4","Epithelial_5","Epithelial_6",

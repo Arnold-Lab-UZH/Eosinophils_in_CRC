@@ -1,4 +1,4 @@
-########## This code applies CellPhoneDB to predict ligand-receptor interactions in the tumor microenvironment ##########
+########## This code applies CellPhoneDB to predict ligand-receptor interactions in the tumor microenvironment (human and mouse) ##########
 
 ##### link to libraries and functions
 source("~/Projects/Eosinophils_in_late_stage_CRC/1.Packages_and_functions.R")
