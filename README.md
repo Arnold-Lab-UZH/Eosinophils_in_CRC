@@ -1,5 +1,5 @@
 # Eosinophils_in_late_stage_CRC
-#### This is a resource for the article: from the Arnold and Moor labs. It includes all code used for the analysis of single cell RNA sequencing data.
+#### This is a resource for the article: from the Arnold lab. It includes all code used for the analysis of single cell RNA sequencing data.
 
 - Packages and functions for the scRNASeq analysis
 - Data integration and annotation of cell populations
