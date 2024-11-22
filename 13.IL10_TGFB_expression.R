@@ -14,6 +14,10 @@ Idents(human) <- "annotation"
 p <- DotPlot(human, features = c("TGFB1","IL10"))
 ggsave("/scratch/khandl/eos_human/tgfb1_il10/human_data_dotplot.svg", width = 12, height = 6, plot = p)
 
+Idents(human) <- "annotation"
+p <- DotPlot(human, features = c("IL33","HMGB1"))
+ggsave("/scratch/khandl/eos_human/tgfb1_il10/human_data_dotplot_IL33_HMGB1.svg", width = 12, height = 6, plot = p)
+
 ## tumor vs. NAT
 for (i in cell_types) {
   Idents(human) <- "annotation"
@@ -37,6 +41,10 @@ TAMs <- TAMs[TAMs$X %in% c("Tgfb1","Il10"),]
 Idents(mouse) <- "annotation"
 p <- DotPlot(mouse, features = c("Tgfb1","Il10"))
 ggsave("/scratch/khandl/eos_human/tgfb1_il10/mouse_data_dotplot.svg", width = 12, height = 6, plot = p)
+
+Idents(mouse) <- "annotation"
+p <- DotPlot(mouse, features = c("Il33","Hmgb1"))
+ggsave("/scratch/khandl/eos_human/tgfb1_il10/mouse_data_dotplot_il33_hmgb1.svg", width = 12, height = 6, plot = p)
 
 ### DEG analysis 
 cell_types <- c("TAMs","Monocytes","Macrophages")
