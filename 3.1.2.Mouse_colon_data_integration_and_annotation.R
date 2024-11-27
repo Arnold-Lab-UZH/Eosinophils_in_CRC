@@ -231,12 +231,12 @@ markers <- c("Icos","Ctla4","Rora","Il2ra","Foxp3", #CD4 T
              "Serpinb2","F5","Syne1","Ccr3","Alox15", #Eosinophils
              "Clec9a","Xcr1","Cd209a","Ccl22","Tbc1d4", #DCs
              "Ms4a6c","Ms4a4c","F10","Adora2b","Ifi205",#Monocytes
-             "Vcam1","Ccl8","Gas6","Folr2","Igf1", #Macrophages
+             "Vcam1","Ccl8","Gas6","Folr2","Igf1","C1qc","C1qb", #Macrophages
              "Arg1","Fn1","Spp1","Mrc1","Anpep", "Mmp12","Cxcl14",#TAMs
              "Pclaf","Birc5","Ccna2","Nuf2","Ube2c"#TRM
 )
 heatmap_goi_coi(obj, "annotation",markers,c("CD4_T","CD8_T","ILCs", "mature_B","PCs","Neutrophils","Eosinophils","DCs","Monocytes","Macrophages","TAMs","TRM"), 
-                c(5,5,5,5,5,5,5,5,5,5,7,5),c("#270A7F",  "#26DFED","#6899C1", "#EDB20C","#DDED0C","#BD7FEA","#E22B17","#F20AB1",
+                c(5,5,5,5,5,5,5,5,5,7,7,5),c("#270A7F",  "#26DFED","#6899C1", "#EDB20C","#DDED0C","#BD7FEA","#E22B17","#F20AB1",
                                              "#C0DBB4",  "#1E8209","#54EF0C","#D7EF92"),
                 c(CD4_T="#270A7F", CD8_T= "#26DFED",ILCs="#6899C1", mature_B="#EDB20C",PCs="#DDED0C",Neutrophils="#BD7FEA",
                   Eosinophils="#E22B17",DCs="#F20AB1",Monocytes="#C0DBB4", Macrophages= "#1E8209",TAMs="#54EF0C", TRM= "#D7EF92"),F,T)
