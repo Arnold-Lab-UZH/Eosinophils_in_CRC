@@ -430,16 +430,17 @@ markers <- c("IL7R","ICOS","SPOCK2","CCR4","KLRB1", #CD4 T
              "CPA3","TPSAB1","MS4A2","TPSB2","SIGLEC6",#Mast
              "CD1C","CLEC10A","FCER1A","PKIB","FLT3", #DCs
              "FCN1","VCAN","EREG","THBS1","CD300E","FCN1", #Monocytes
-             "CD209","F13A1","LILRB5","DNASE1L3","SELENOP","C1QC","C1QB", #Macrophages
-             "SPP1","APOC1","TREM2","LPL","MARCO"#TAMs
+             "CD209","F13A1","LILRB5","DNASE1L3","SELENOP","C1QC","C1QB","MRC1", #Macrophages
+             "SPP1","FN1","TREM2","LPL","MARCO"#TAMs
 )
 heatmap_goi_coi(obj, "annotation",markers,c("CD4_T","CD8_T","mature_B","PCs","Basophils","Neutrophils","Eosinophils","Mast","DCs","Monocytes","Macrophages","TAMs"), 
-                c(5,5,5,5,5,5,5,5,5,6,7,5),c("#270A7F",  "#26DFED","#EDB20C","#DDED0C",  "#7C7C79","#BD7FEA","#E22B17",  "#56544F","#F20AB1",
+                c(5,5,5,5,5,5,5,5,5,6,8,5),c("#270A7F",  "#26DFED","#EDB20C","#DDED0C",  "#7C7C79","#BD7FEA","#E22B17",  "#56544F","#F20AB1",
                                              "#C0DBB4",  "#1E8209","#54EF0C"),
                 c(CD4_T="#270A7F", CD8_T= "#26DFED",mature_B="#EDB20C",PCs="#DDED0C", Basophils= "#7C7C79",Neutrophils="#BD7FEA",
                   Eosinophils="#E22B17", Mast= "#56544F",DCs="#F20AB1",Monocytes="#C0DBB4", Macrophages= "#1E8209",TAMs="#54EF0C"),F,T)
 
 ##### save object 
 saveRDS(obj, "/data/khandl/Eosinophils_in_CRC/seurat_objects/patients_colonic_annotated.rds")
+obj <- readRDS("/data/khandl/Eosinophils_in_CRC/seurat_objects/patients_colonic_annotated.rds")
 
 

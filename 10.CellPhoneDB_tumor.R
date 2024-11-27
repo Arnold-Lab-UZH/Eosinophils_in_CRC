@@ -102,4 +102,68 @@ df$total_counts <- as.numeric(df$total_counts)
 p <- ggplot(df, aes(x = interacting_pair, y = total_counts)) + geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 90))  
 ggsave("/scratch/khandl/eos_tumor/figures/LR/LRcounts.svg", width = 12, height = 6, plot = p)
 
+##### comparison of sig. interactions between Eos and SPP1 TAMs in mouse and human tumors 
+### mouse
+df <- read.delim("/data/khandl/CellPhoneDB/eos_tumor/tumor_wt/statistical_analysis_significant_means_05_21_2024_131315.txt",check.names = FALSE)
+df[is.na(df)] <- 0
+
+df <- df[,colnames(df) %in% c("interacting_pair","directionality","Eosinophils|TAMs")]
+df2 <- df[which(df$`Eosinophils|TAMs` > 0),]
+rownames(df2) <- df2$interacting_pair
+df2$directionality <- NULL
+
+df2$celltypes <- "Eosinophils_TAMs"
+colnames(df2) <- c("interacting_pair","mean","celltypes")
+df_mouse <- df2
+mouse_interactions <- df_mouse$interacting_pair
+
+### human
+df <- read.delim("/data/khandl/CellPhoneDB/eos_human/human_tumor/statistical_analysis_significant_means_08_13_2024_120238.txt",check.names = FALSE)
+df[is.na(df)] <- 0
+
+df <- df[,colnames(df) %in% c("interacting_pair","directionality","Eosinophils|TAMs")]
+df2 <- df[which(df$`Eosinophils|TAMs` > 0),]
+rownames(df2) <- df2$interacting_pair
+df2$directionality <- NULL
+
+df2$celltypes <- "Eosinophils_TAMs"
+colnames(df2) <- c("interacting_pair","mean","celltypes")
+human_interactions <- df2$interacting_pair
+
+### find the shared interactions 
+shared_interactions <- intersect(mouse_interactions, human_interactions)
+
+### plot pvalues and means of shared interactions  
+# mouse
+pval <- read.delim("/data/khandl/CellPhoneDB/eos_tumor/tumor_wt/statistical_analysis_pvalues_05_21_2024_131315.txt",check.names = FALSE)
+pval <- pval[pval$interacting_pair %in% shared_interactions ,colnames(pval) %in% c("interacting_pair","Eosinophils|TAMs")]
+means <- read.delim("/data/khandl/CellPhoneDB/eos_tumor/tumor_wt/statistical_analysis_means_05_21_2024_131315.txt",check.names = FALSE)
+means <- means[means$interacting_pair %in% shared_interactions ,colnames(means) %in% c("interacting_pair","Eosinophils|TAMs")]
+
+colnames(pval) <- c("interacting_pair","pval")
+colnames(means) <- c("interacting_pair","means")
+df_mouse <- merge(pval,means, by = "interacting_pair")
+df_mouse$celltype <- "TAMs_mouse"
+
+# human
+pval <- read.delim("/data/khandl/CellPhoneDB/eos_human/human_tumor/statistical_analysis_pvalues_08_13_2024_120238.txt",check.names = FALSE)
+pval <- pval[pval$interacting_pair %in% shared_interactions ,colnames(pval) %in% c("interacting_pair","Eosinophils|TAMs")]
+means <- read.delim("/data/khandl/CellPhoneDB/eos_human/human_tumor/statistical_analysis_means_08_13_2024_120238.txt",check.names = FALSE)
+means <- means[means$interacting_pair %in% shared_interactions ,colnames(means) %in% c("interacting_pair","Eosinophils|TAMs")]
+
+colnames(pval) <- c("interacting_pair","pval")
+colnames(means) <- c("interacting_pair","means")
+df_human <- merge(pval,means, by = "interacting_pair")
+df_human$celltype <- "TAMs_human"
+
+# merge and plot 
+merged <- rbind(df_mouse,df_human)
+
+p <- ggplot(merged, aes(x = means, y = interacting_pair,size = -pval, color = celltype)) + 
+  geom_point() + scale_size(name = "padj", range = c(10, 20)) + theme_light() + 
+  scale_color_manual(values = c(TAMs_human="#371D3D", TAMs_mouse="#929992"))
+ggsave("/scratch/khandl/eos_tumor/figures/lr/eos_tams_human_mouse.svg", width = 12, height = 6, plot = p)
+
+
+
 
