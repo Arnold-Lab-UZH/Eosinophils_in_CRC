@@ -8,4 +8,4 @@
 
 #### The publication can be accessed from here:
 
-#### The scRNAseq datasets are available here: GEO accession number: 
+#### The scRNAseq datasets are available at GEO under accession number: GSE282765
