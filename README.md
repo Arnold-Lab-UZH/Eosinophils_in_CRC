@@ -6,6 +6,6 @@
 - DEG, GSEA, SCENIC, CellPhoneDB, CytoSig analysis
 - Eosinophil comparisons by species
 
-#### The publication can be accessed from here:
+#### The preprint can be accessed from here: https://www.biorxiv.org/content/10.1101/2024.12.13.628333v1
 
 #### The scRNAseq datasets are available at GEO under accession number: GSE282765
